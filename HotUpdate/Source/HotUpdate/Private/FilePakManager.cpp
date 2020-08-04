@@ -81,7 +81,7 @@ void FFilePakManager::ShutDown()
 
     FailedPakList.Empty();
 
-    OnVerifierUpdated.Unbind();
+    OnMountUpdated.Unbind();
 }
 
 bool FFilePakManager::IsSuccessful() const
@@ -100,7 +100,7 @@ void FFilePakManager::UpdateMountProgress(const int CurrentIndex)
 
     const auto& Progress = static_cast<float>(CurrentIndex + 1) / static_cast<float>(PakFiles.Num());
 
-    OnVerifierUpdated.Execute(PakName, Progress);
+    OnMountUpdated.Execute(PakName, Progress);
 }
 
 bool FFilePakManager::IsPakValid(const FPakFileProperty& PakInfo)

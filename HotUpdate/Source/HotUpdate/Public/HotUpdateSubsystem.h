@@ -17,7 +17,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDownloadUpdate, const FDownloadPr
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHotUpdateFinished);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnVerifierProcessing, FString, PakName, float, Progress);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnMountUpdate, FString, PakName, float, Progress);
 
 /**
  * 
@@ -56,7 +56,7 @@ public:
     FOnHotUpdateFinished OnHotUpdateFinished;
 
     UPROPERTY(BlueprintAssignable)
-    FOnVerifierProcessing OnVerifierProcessing;
+    FOnMountUpdate OnMountUpdate;
 
 protected:
     bool IsSuccessful() const;
@@ -77,7 +77,7 @@ private:
     void OnSkipUpdate() const;
 
     UFUNCTION()
-    void OnVerifierProcess(const FString& PakName, float Progress) const;
+    void OnMountProcess(const FString& PakName, float Progress) const;
 
     UFUNCTION()
     void OnHotUpdateState(EHotUpdateState State, const FString& Message);

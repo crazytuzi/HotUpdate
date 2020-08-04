@@ -1,0 +1,16 @@
+{
+	"0.1.0.0" : [
+	],
+	"0.1.1.0" : [
+		{
+			"File": "0.1.1.0_Asset_WindowsNoEditor_001_P.pak",
+			"HASH": "806f2c9f104b03552145a14063648126",
+			"Size": 15116689
+		},
+		{
+			"File": "0.1.1.0_Lua_WindowsNoEditor_001_P.pak",
+			"HASH": "483c3342a912bf177058f0979ea52ee5",
+			"Size": 681
+		}
+	]
+}

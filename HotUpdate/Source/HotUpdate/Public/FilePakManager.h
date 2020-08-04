@@ -4,7 +4,7 @@
 #include "FileDownType.h"
 #include "IPlatformFilePak.h"
 
-DECLARE_DELEGATE_TwoParams(FOnVerifierUpdated, const FString&, float);
+DECLARE_DELEGATE_TwoParams(FOnMountUpdated, const FString&, float);
 
 class HOTUPDATE_API FFilePakManager
 {
@@ -31,5 +31,5 @@ protected:
     void UpdateMountProgress(const int CurrentIndex);
 
 public:
-    FOnVerifierUpdated OnVerifierUpdated;
+    FOnMountUpdated OnMountUpdated;
 };

@@ -35,7 +35,7 @@ void UHotUpdateSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
     if (PakManager.IsValid())
     {
-        PakManager->OnVerifierUpdated.BindUObject(this, &UHotUpdateSubsystem::OnVerifierProcess);
+        PakManager->OnMountUpdated.BindUObject(this, &UHotUpdateSubsystem::OnMountProcess);
     }
 
     OnHotUpdateStateEvent.BindUObject(this, &UHotUpdateSubsystem::OnHotUpdateState);
@@ -126,9 +126,9 @@ FString UHotUpdateSubsystem::GetPlatform()
 #endif
 }
 
-void UHotUpdateSubsystem::OnVerifierProcess(const FString& PakName, const float Progress) const
+void UHotUpdateSubsystem::OnMountProcess(const FString& PakName, const float Progress) const
 {
-    OnVerifierProcessing.Broadcast(PakName, Progress);
+    OnMountUpdate.Broadcast(PakName, Progress);
 }
 
 void UHotUpdateSubsystem::OnHotUpdateState(const EHotUpdateState State, const FString& Message)

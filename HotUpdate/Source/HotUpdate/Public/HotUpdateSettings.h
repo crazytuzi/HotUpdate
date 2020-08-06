@@ -16,7 +16,7 @@ class HOTUPDATE_API UHotUpdateSettings : public UObject
 
 public:
     UPROPERTY(Config, EditAnywhere)
-    FString HotUpdateServerUrl = "127.0.0.1";
+    FString HotUpdateServerUrl = "http://127.0.0.1";
 
     UPROPERTY(Config, EditAnywhere)
     FString TempPakSaveRoot = "Paks/Temp";

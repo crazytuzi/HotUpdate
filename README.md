@@ -1,10 +1,15 @@
 ## UE4 Plugin: HotUpdate
-[HotUpdate](https://github.com/crazytuzi/HotUpdate)是一个用于UE4资源热更新下载的插件，经过测试，UMG，地图和Lua都成功热更新，理论上其他uasset资源都可以，已经测试通过PC和Android，IOS待测试。目前处于测试阶段，会持续更新，欢迎提issus。制作Pak部分推荐[HotPatcher](https://github.com/hxhb/HotPatcher)。
+[HotUpdate](https://github.com/crazytuzi/HotUpdate)是一个用于UE4资源热更新下载的插件，经过测试，UMG，地图和Lua都成功热更新，理论上其他uasset资源都可以，PC，Android和IOS都测试通过。目前处于测试阶段，会持续更新，欢迎提issus。制作Pak部分推荐[HotPatcher](https://github.com/hxhb/HotPatcher)。
+
+- 已知问题
+    - IOS下加载新的Pak中的shaderbytecode有问题
+    - Pak下载时间过长的情况下，会出现TArray迭代的同时移除元素，导致Crash
 
 - 首先在Project Settings - Plugins - HotUpdate下设置参数
     <br>
     <img src="Settings.png" width="1320">
     - HotUpdateServerUrl : 热更新服务器地址
+        - 注意，需要带上http://或者https://，否则会发生IOS请求Http失败
     - TempPakSaveRoot : 临时下载文件保存目录
     - PakSaveRoot : Pak保存目录
     - TimeOutDelay : 尝试重连间隔时间

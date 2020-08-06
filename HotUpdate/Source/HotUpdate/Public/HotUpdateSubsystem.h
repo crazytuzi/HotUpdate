@@ -6,6 +6,7 @@
 #include "FileDownType.h"
 #include "FilePakManager.h"
 #include "TaskInfo.h"
+#include "Engine/EngineTypes.h"
 #include "FileDownloadManager.h"
 #include "Interfaces/IHttpRequest.h"
 #include "Subsystems/GameInstanceSubsystem.h"

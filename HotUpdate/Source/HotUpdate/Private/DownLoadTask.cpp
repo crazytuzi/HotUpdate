@@ -12,7 +12,7 @@ FDownloadTask::FDownloadTask(const FString& URL, const FString& SaveRoot, const 
                              const int32 FileSize) : TempFileHandle(nullptr), Request(nullptr)
 {
 #if PLATFORM_ANDROID
-	if (!FPlatformFileManager::Get().GetPlatformFile().GetLowerLevel()->DirectoryExists(*InDirectory))
+	if (!FPlatformFileManager::Get().GetPlatformFile().GetLowerLevel()->DirectoryExists(*SaveRoot))
 #elif PLATFORM_WINDOWS
     if (!FPlatformFileManager::Get().GetPlatformFile().DirectoryExists(*SaveRoot))
 #endif

@@ -2,6 +2,8 @@
 #include "FileDownloadManager.h"
 #include "IPlatformFilePak.h"
 #include "FileDownLog.h"
+#include "Launch/Resources/Version.h"
+#include "ShaderCodeLibrary.h"
 
 DEFINE_LOG_CATEGORY(LogHotUpdate);
 

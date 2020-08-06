@@ -1,6 +1,7 @@
 #include "FileDownloadManager.h"
 #include "FileDownLog.h"
 #include "HotUpdateSettings.h"
+#include "Engine/World.h"
 
 void FFileDownloadManager::StartUp()
 {

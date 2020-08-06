@@ -12,6 +12,7 @@
 #include "Misc/NetworkVersion.h"
 #include "Interfaces/IHttpResponse.h"
 #include "HotUpdateSettings.h"
+#include "Policies/CondensedJsonPrintPolicy.h"
 
 void UHotUpdateSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {

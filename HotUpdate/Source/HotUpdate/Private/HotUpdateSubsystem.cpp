@@ -44,6 +44,8 @@ void UHotUpdateSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 void UHotUpdateSubsystem::Deinitialize()
 {
+    ShutDown();
+    
     Super::Deinitialize();
 }
 

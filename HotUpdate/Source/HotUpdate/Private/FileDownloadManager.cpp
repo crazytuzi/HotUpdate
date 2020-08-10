@@ -26,7 +26,10 @@ void FFileDownloadManager::StartUp()
 
         for (const auto& Task : Tasks)
         {
-            Task.Value->Start();
+            if(Task.Value->IsPending())
+            {
+                Task.Value->Start();
+            }
         }
     }
     else
@@ -75,18 +78,30 @@ FString FFileDownloadManager::GetPakSaveRoot()
 
 bool FFileDownloadManager::IsSuccessful() const
 {
-    return Tasks.Num() <= 0 && FailedTasks.Num() <= 0;
+    auto bIsSuccessful = true;
+
+    for (const auto& Task : Tasks)
+    {
+        if (!Task.Value->IsFinished())
+        {
+            bIsSuccessful = false;
+
+            break;
+        }
+    }
+
+    return bIsSuccessful && FailedTasks.Num() <= 0;
 }
 
 void FFileDownloadManager::OnTaskFinish(const FTaskInfo& Info, const bool bIsSuccess)
 {
     CurrentDownloadSize += Info.DownloadSize;
+    
+    const auto& Value = Tasks.FindRef(Info.GUID);
 
-    TSharedPtr<FDownloadTask> OutRemovedValue;
-
-    if (!Tasks.RemoveAndCopyValue(Info.GUID, OutRemovedValue))
+    if(!Value.IsValid())
     {
-        UE_LOG(LogHotUpdate, Warning, TEXT("Failed to remove:%s"), *Info.FileName);
+        UE_LOG(LogHotUpdate, Warning, TEXT("Value is not valid:%s"), *Info.FileName);
         return;
     }
 
@@ -110,12 +125,12 @@ void FFileDownloadManager::OnTaskFinish(const FTaskInfo& Info, const bool bIsSuc
     }
     else
     {
-        FailedTasks.Add(OutRemovedValue);
+        FailedTasks.Add(Value);
     }
 
     for (const auto& Task : Tasks)
     {
-        if (!Task.Value->IsDownloading())
+        if (Task.Value->IsPending())
         {
             Task.Value->Start();
         }

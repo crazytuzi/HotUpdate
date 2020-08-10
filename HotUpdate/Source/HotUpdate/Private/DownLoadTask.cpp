@@ -9,7 +9,8 @@
 FString FDownloadTask::TempFileExtension = TEXT(".tmp");
 
 FDownloadTask::FDownloadTask(const FString& URL, const FString& SaveRoot, const FString& FileName,
-                             const int32 FileSize) : TempFileHandle(nullptr), Request(nullptr)
+                             const int32 FileSize) : State(EDownloadTaskState::Pending), TempFileHandle(nullptr),
+                                                     Request(nullptr)
 {
 #if PLATFORM_ANDROID
 	if (!FPlatformFileManager::Get().GetPlatformFile().GetLowerLevel()->DirectoryExists(*SaveRoot))
@@ -30,8 +31,6 @@ FDownloadTask::FDownloadTask(const FString& URL, const FString& SaveRoot, const 
     TaskInfo.FileName = FileName;
 
     TaskInfo.FileSize = FileSize;
-
-    bIsDownLoading = false;
 }
 
 bool FDownloadTask::IsFileExist() const
@@ -53,12 +52,12 @@ void FDownloadTask::Start()
         return;
     }
 
-    if (bIsDownLoading)
+    if (!IsPending() || IsFinished())
     {
         return;
     }
 
-    bIsDownLoading = true;
+    State = EDownloadTaskState::DownLoading;
 
     ReqGetHead();
 }
@@ -80,6 +79,8 @@ void FDownloadTask::Stop()
 
         Request = nullptr;
     }
+
+    State = EDownloadTaskState::Finished;
 
     OnTaskEvent.Unbind();
 }
@@ -297,7 +298,7 @@ void FDownloadTask::OnTaskCompleted()
         TempFileHandle = nullptr;
     }
 
-    bIsDownLoading = false;
+    State = EDownloadTaskState::Finished;
 
     if (!IsFileExist())
     {

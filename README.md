@@ -3,7 +3,6 @@
 
 - 已知问题
     - IOS下加载metalmap和metallib当前方案是临时方案
-    - Pak下载时间过长的情况下，会出现TArray迭代的同时移除元素，导致Crash
 
 - 首先在Project Settings - Plugins - HotUpdate下设置参数
     <br>

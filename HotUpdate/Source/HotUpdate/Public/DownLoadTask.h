@@ -4,6 +4,13 @@
 #include "TaskInfo.h"
 #include "FileDownType.h"
 
+enum class EDownloadTaskState : uint8
+{
+    Pending,
+    DownLoading,
+    Finished
+};
+
 DECLARE_DELEGATE_TwoParams(FOnTaskEvent, const EDownloadTaskEvent, const FTaskInfo&);
 
 class FDownloadTask final
@@ -16,9 +23,14 @@ public:
 
     void Stop();
 
-    bool IsDownloading() const
+    bool IsPending() const
     {
-        return bIsDownLoading;
+        return State == EDownloadTaskState::Pending;
+    }
+
+    bool IsFinished() const
+    {
+        return State == EDownloadTaskState::Finished;
     }
 
     FString GetFilePath() const;
@@ -55,7 +67,7 @@ private:
 
     FString Root;
 
-    bool bIsDownLoading;
+    EDownloadTaskState State;
 
     const int32 ChunkSize = 4 * 1024 * 1024;
 

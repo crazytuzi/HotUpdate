@@ -90,6 +90,18 @@ void FFilePakManager::ShutDown()
     FailedPakList.Empty();
 
     OnMountUpdated.Unbind();
+
+    if (PakPlatformFile != nullptr)
+    {
+        if (PakPlatformFile->GetLowerLevel() != nullptr)
+        {
+            FPlatformFileManager::Get().RemovePlatformFile(PakPlatformFile);
+        }
+
+        delete PakPlatformFile;
+
+        PakPlatformFile = nullptr;
+    }
 }
 
 bool FFilePakManager::IsSuccessful() const

@@ -2,7 +2,7 @@
 [HotUpdate](https://github.com/crazytuzi/HotUpdate)是一个用于UE4资源热更新下载的插件，经过测试，UMG，地图和Lua都成功热更新，理论上其他uasset资源都可以，PC，Android和IOS都测试通过。目前处于测试阶段，会持续更新，欢迎提issus。制作Pak部分推荐[HotPatcher](https://github.com/hxhb/HotPatcher)。
 
 - 已知问题
-    - IOS下加载新的Pak中的shaderbytecode有问题
+    - IOS下加载metalmap和metallib当前方案是临时方案
     - Pak下载时间过长的情况下，会出现TArray迭代的同时移除元素，导致Crash
 
 - 首先在Project Settings - Plugins - HotUpdate下设置参数
@@ -52,6 +52,7 @@
         - PLATFORM_WINDOWS - win
         - PLATFORM_ANDROID - android
         - PLATFORM_IOS - ios
+        - PLATFORM_MAC - mac
         - PLATFORM_LINUX - linux
     - version.json中为版本对应热更新资源列表，可根据项目自身CICD实现自动化生成。
         ```json
@@ -79,3 +80,23 @@
     - OnDownloadUpdate 下载进度
     - OnMountUpdate Mount进度
     - OnHotUpdateFinished 热更新完成
+
+- IOS下metalmap和metallib加载说明
+    - 首先是制作Pak包的时候，需要将metalmap和metallib放到其他非Content目录，例如Content/Metal
+        - 目录设置在HotPatcher插件中FlibPatchParserHelper.cpp中，如下图
+            <br>
+            <img src="FlibPatchParserHelper.png" width="2069">
+    - 然后是需要修改引擎MetalShaders.cpp文件
+        - 主要修改代码如下图
+            <br>
+            <img src="MetalShaders.png" width="1147">
+        - 流程分析
+            - 首先检测文件名是否包含"Metal"，"Metal"为FlibPatchParserHelper.cpp中配置
+            - 如果包含，代表这是需要热更新的metallib，执行下面代码，否则不做处理
+            - 创建一个文件，此文件加了一层Lib目录，此时文件的路径为Content/Metal/Lib，这样做的目的是方便获取绝对路径
+            - 将Pak中的metallib文件内容拷贝到新建的文件中，这是目前的临时方案，会有比较大的IO开销，后期会考略结合newLibraryWithData使用文件流
+    - 最后修改插件FilePakManager.cpp中的路径，如下图
+        <br>
+        <img src="FilePakManager.png" width="1431">
+    - MetalShaders目录下有原始和修改后MetalShaders.cpp文件
+        - 引擎版本4.25.1

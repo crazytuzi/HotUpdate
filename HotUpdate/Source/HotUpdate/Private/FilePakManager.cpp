@@ -71,9 +71,15 @@ void FFilePakManager::StartUp()
     }
 
 #if ENGINE_MAJOR_VERSION >= 4 && ENGINE_MINOR_VERSION >= 25
+#if PLATFORM_IOS || PLATFORM_MAC
+    FShaderCodeLibrary::OpenLibrary("Global", FPaths::Combine(FPaths::ProjectContentDir(), "Metal"));
+
+    FShaderCodeLibrary::OpenLibrary(FApp::GetProjectName(), FPaths::Combine(FPaths::ProjectContentDir(), "Metal"));
+#else
     FShaderCodeLibrary::OpenLibrary("Global", FPaths::ProjectContentDir());
 
     FShaderCodeLibrary::OpenLibrary(FApp::GetProjectName(), FPaths::ProjectContentDir());
+#endif
 #endif
 }
 

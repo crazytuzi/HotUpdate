@@ -122,6 +122,8 @@ FString UHotUpdateSubsystem::GetPlatform()
     return TEXT("android");
 #elif PLATFORM_IOS
     return TEXT("ios");
+#elif PLATFORM_MAC
+    return TEXT("mac");
 #elif PLATFORM_LINUX
     return TEXT("linux");
 #endif
